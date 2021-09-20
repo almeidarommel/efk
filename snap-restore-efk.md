@@ -4,13 +4,12 @@
 
 * Elasticsearch instalado no Openshift;
 * Servidor de NFS com acesso liberado para o Openshift
-* PV criado e apontando para o NFS, disponível para o pvc do namespace do Elasticsearch.
+* PV criado e apontando para o NFS, /disponível para o pvc do namespace do Elasticsearch.
 
 
 ### 1. Disponibilizar um NFS ReadWriteMany (RWX - The volume can be mounted as read-write by many nodes)
-```
+
 [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
-```
 
 ### 2. Configurar PV para nfs dentro do Openshift
 ```
