@@ -142,6 +142,6 @@ OBS:
 * Subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
 
-FONTE:
+Fonte:
 - [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
 - [Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
