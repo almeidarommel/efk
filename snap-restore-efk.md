@@ -9,7 +9,7 @@
 
 ### 1. Disponibilizar um NFS ReadWriteMany (RWX - The volume can be mounted as read-write by many nodes)
 
-[Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
+- [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
 
 ### 2. Configurar PV para nfs dentro do Openshift
 ```
@@ -138,7 +138,7 @@ fi
 3. Restaurar Snapshot
 4. Iniciar Kibana
 
-OBS: 
+Obs: 
 * Subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
 
