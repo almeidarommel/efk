@@ -69,17 +69,15 @@ PUT /_snapshot/my_backup
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/home/rpinto/es-backup","compress":true}}'
 ```
-* Este aqui na pasta remota que encontra-se dentro dos pods:
+* Executando o comando no Elasticsearch do Openshift:
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/backup","compress":true}}'
 ```
-
 ## Para listar o backup:
 ```
 curl -XGET 'http://localhost:9200/_snapshot/_all?pretty'
 ```
-
-OBS: É possível visualizar o backup via cerebro, também.
+OBS: É possível visualizar o backup via cérebro, também.
 
 
 ## Algums comandos extras:
@@ -88,7 +86,7 @@ OBS: É possível visualizar o backup via cerebro, também.
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
 
-### Aguarda até que o comando seja finalizado:
+### Aguardar até que o comando seja finalizado usando o "wait_for_completion=true":
 ```
 curl -XPUT 'http://localhost:9200/_snapshot/esbackup/first-snapshot?wait_for_completion=true'
 ```
@@ -96,12 +94,12 @@ curl -XPUT 'http://localhost:9200/_snapshot/esbackup/first-snapshot?wait_for_com
 curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_completion=true'
 ```
 
-### Simulando um deleção de todos os ínidices:
+### Simulando um deleção de todos os ínidices:(CUIDADO!)
 ```
 curl -XDELETE 'http://localhost:9200/_all'
 ```
 
-### Listando os índices e mostrando que não há nada:
+### Listando os índices:
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
@@ -116,9 +114,9 @@ curl -XPOST 'http://localhost:920/_snapshot/backup/first-snapshot/_restore?wait_
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
 
-## 6. Configurar Job Control-M para executar Script Diariamente:
+## 6. Configurar Job para executar Script Diariamente:
 
-script-snap.sh
+* script-snap.sh
 
 ```
 #!/bin/bash
@@ -135,11 +133,14 @@ fi
 
 # Procedimento de Restore
 
-1-Parar Kibana
-2-Remover Indices (Cerebro)
-3-Restaurar Snapshot (Cerebro)
-4-Iniciar Kibana
+1. - Parar Kibana
+2. - Remover Indices (Cerebro)
+3. - Restaurar Snapshot (Cerebro)
+4. - Iniciar Kibana
 
 OBS: 
 * Subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
+
+FONTE:
+[Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
