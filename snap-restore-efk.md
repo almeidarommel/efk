@@ -28,11 +28,13 @@ spec:
 ```
 
 ### 3. Configurar PVC dentro do statefulset do Elasticsearch:
+* Configurando uma nova env para montar o volume dentro do pod
 ```
         - env:
             - name: path.repo
               value: /backup
 ```
+* Criando o volumeMounts apontando para o pv do NFS
 ```
           volumeMounts:
             - mountPath: /usr/share/elasticsearch/data
@@ -40,6 +42,7 @@ spec:
             - mountPath: /backup
               name: es-backup-hml-nfs-volume2
 ```
+* Configurando o volume para vincular ao claim:
 ```
 - name: es-backup-hml-nfs-volume2
           persistentVolumeClaim:
@@ -51,7 +54,7 @@ spec:
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/snapshot/backup' -d '{"type": "fs","settings":{"location":"my_backup_location"}}'
 ```
 
-Aqui pode ser feito via cerebro:
+* Esta é a opçao que podemos fazer via cerebro:
 ```
 PUT /_snapshot/my_backup
 {
@@ -62,12 +65,11 @@ PUT /_snapshot/my_backup
 }
 ```
 ### 5. Realizando o snapshot via API:
- Este aqui na máquina local:
+* Rodando na minha máquina local
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/home/rpinto/es-backup","compress":true}}'
 ```
-
-Este aqui na path remote dentro do container:
+* Este aqui na pasta remota que encontra-se dentro dos pods:
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/backup","compress":true}}'
 ```
