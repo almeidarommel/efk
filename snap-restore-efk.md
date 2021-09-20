@@ -133,10 +133,10 @@ fi
 
 # Procedimento de Restore
 
-1. - Parar Kibana
-2. - Remover Indices (Cerebro)
-3. - Restaurar Snapshot (Cerebro)
-4. - Iniciar Kibana
+1. Parar Kibana
+2. Remover Indices (Cerebro)
+3. Restaurar Snapshot (Cerebro)
+4. Iniciar Kibana
 
 OBS: 
 * Subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
@@ -144,3 +144,4 @@ OBS:
 
 FONTE:
 [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
+[Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
