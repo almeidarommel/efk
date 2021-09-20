@@ -139,7 +139,7 @@ fi
 4. Iniciar Kibana
 
 Obs: 
-* Subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
+* A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
 
 Fonte:
