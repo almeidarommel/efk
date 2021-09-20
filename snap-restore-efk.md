@@ -2,7 +2,7 @@
 
 ### Pré-requisitos:
 
-* Elasticsearch instalado no Openshift;
+* Elasticsearch instalado no Openshift de preferência utilizando statefulset;
 * Servidor de NFS com acesso liberado para o Openshift
 * PV criado e apontando para o NFS, /disponível para o pvc do namespace do Elasticsearch.
 
@@ -134,8 +134,8 @@ fi
 # Procedimento de Restore
 
 1. Parar Kibana
-2. Remover Indices (Cerebro)
-3. Restaurar Snapshot (Cerebro)
+2. Remover Indices
+3. Restaurar Snapshot
 4. Iniciar Kibana
 
 OBS: 
@@ -143,5 +143,5 @@ OBS:
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
 
 FONTE:
-[Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
-[Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
+- [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
+- [Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
