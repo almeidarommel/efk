@@ -1,4 +1,5 @@
 ## Snapshot and Restore ElasticSearch on Openshift ##
+
 ### 1. Pré-requisitos:
 * Elasticsearch instalado no Openshift de preferência utilizando statefulset;
 * Servidor de NFS com acesso liberado para o Openshift
