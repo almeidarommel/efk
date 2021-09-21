@@ -32,23 +32,23 @@ spec:
 
 * Configurando uma nova env para de volume dentro do pod
 ```
-          - env:
-            - name: path.repo
-              value: /backup
+- env:
+  - name: path.repo
+    value: /backup
 ```
 * Criando o volumeMounts apontando para o pv do NFS
 ```
-          volumeMounts:
-            - mountPath: /usr/share/elasticsearch/data
-              name: es-storage-db-hml
-            - mountPath: /backup
-              name: es-backup-hml-nfs-volume2
+volumeMounts:
+  - mountPath: /usr/share/elasticsearch/data
+    name: es-storage-db-hml
+  - mountPath: /backup
+    name: es-backup-hml-nfs-volume2
 ```
 * Configurando o volume para vincular ao claim:
 ```
-        - name: es-backup-hml-nfs-volume2
-          persistentVolumeClaim:
-            claimName: es-backup-hml-nfs-claim2
+- name: es-backup-hml-nfs-volume2
+  persistentVolumeClaim:
+    claimName: es-backup-hml-nfs-claim2
 ```
 
 ### 5. Criando o repo path dentro do Elasticsearch via API:
