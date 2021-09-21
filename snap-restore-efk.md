@@ -10,7 +10,7 @@
 
 * O pv deve permitir que o access mode esteja em:
   - ReadWriteMany de acordo com a DOC [Persistente Storage - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
-  - [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
+  - [Aqui o link para configurar um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
 
 ### 3. Configurar PV para nfs dentro do Openshift
 ```
