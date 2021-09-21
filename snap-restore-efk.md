@@ -32,7 +32,7 @@ spec:
 
 * Configurando uma nova env para de volume dentro do pod
 ```
-        - env:
+          - env:
             - name: path.repo
               value: /backup
 ```
@@ -46,7 +46,7 @@ spec:
 ```
 * Configurando o volume para vincular ao claim:
 ```
-       - name: es-backup-hml-nfs-volume2
+        - name: es-backup-hml-nfs-volume2
           persistentVolumeClaim:
             claimName: es-backup-hml-nfs-claim2
 ```
@@ -124,9 +124,9 @@ fi
 
 ### 13. Dicas
 
-* A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
-* Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
-* É possível criar uma política via interface do kibana para deixar todo o processo funcionando sem a necessidade de uma chamada de um script externo para rodar o backup.
+* *A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados;*
+* *Caso o kibana esteja rodando deve-se parar o kibana e apagar os índices que ele fica tentando recriar de forma automatica, impossibilitando o restore;*
+* *É possível criar uma política via interface do kibana para deixar todo o processo funcionando sem a necessidade de uma chamada de um script externo para rodar o backup.*
 
 ### 14. Algums comandos extras:
 
