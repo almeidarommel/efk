@@ -1,17 +1,16 @@
 ## Snapshot and Restore ElasticSearch on Openshift ##
 
-### Pré-requisitos:
+### 1. Pré-requisitos:
 
 * Elasticsearch instalado no Openshift de preferência utilizando statefulset;
 * Servidor de NFS com acesso liberado para o Openshift
 * PV criado e apontando para o NFS, /disponível para o pvc do namespace do Elasticsearch.
 
-
-### 1. Disponibilizar um NFS ReadWriteMany (RWX - The volume can be mounted as read-write by many nodes)
+### 2. Disponibilizar um NFS ReadWriteMany (RWX - The volume can be mounted as read-write by many nodes)
 
 - [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
 
-### 2. Configurar PV para nfs dentro do Openshift
+### 3. Configurar PV para nfs dentro do Openshift
 ```
 apiVersion: v1
 kind: PersistentVolume
@@ -27,8 +26,9 @@ spec:
     server: 172.17.0.2
 ```
 
-### 3. Configurar PVC dentro do statefulset do Elasticsearch:
-* Configurando uma nova env para montar o volume dentro do pod
+### 4. Configurar PVC dentro do statefulset YAML do Elasticsearch:
+
+* Configurando uma nova env para de volume dentro do pod
 ```
         - env:
             - name: path.repo
@@ -49,7 +49,9 @@ spec:
             claimName: es-backup-hml-nfs-claim2
 ```
 
-### 4. Criando o repo path dentro do Elasticsearch via API:
+### 5. Criando o repo path dentro do Elasticsearch via API:
+
+* Opção de chamada por api
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/snapshot/backup' -d '{"type": "fs","settings":{"location":"my_backup_location"}}'
 ```
@@ -64,7 +66,7 @@ PUT /_snapshot/my_backup
   }
 }
 ```
-### 5. Realizando o snapshot via API:
+### 6. Realizando o snapshot via API:
 * Rodando na minha máquina local
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/home/rpinto/es-backup","compress":true}}'
@@ -73,48 +75,28 @@ curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/b
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/backup","compress":true}}'
 ```
-## Para listar o backup:
+### 7. Para listar o backup:
 ```
 curl -XGET 'http://localhost:9200/_snapshot/_all?pretty'
 ```
-OBS: É possível visualizar o backup via cérebro, também.
+* OBS: É possível visualizar o backup via cérebro, também.
 
-
-## Algums comandos extras:
-### Para listar índices e exibir seus tamanhos:
+### 8. Listando os índices:
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
 
-### Aguardar até que o comando seja finalizado usando o "wait_for_completion=true":
-```
-curl -XPUT 'http://localhost:9200/_snapshot/esbackup/first-snapshot?wait_for_completion=true'
-```
-```
-curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_completion=true'
-```
-
-### Simulando um deleção de todos os ínidices:(CUIDADO!)
-```
-curl -XDELETE 'http://localhost:9200/_all'
-```
-
-### Listando os índices:
-```
-curl -XGET 'http://localhost:9200/_cat/indices'
-```
-
-## Restaurando o backup e garantindo que vamos pegar do diretório correto:
+### 9. Restaurando o backup e garantindo que vamos pegar do diretório correto:
 ```
 curl -XPOST 'http://localhost:920/_snapshot/backup/first-snapshot/_restore?wait_for_completion=true'
 ```
 
-## Listando os índices para garantir que o processo vai ocorrer com sucesso
+### 10. Listando os índices para garantir que o processo vai ocorrer com sucesso
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
 
-## 6. Configurar Job para executar Script Diariamente:
+## 11. Configurar Job para executar Script Diariamente:
 
 * script-snap.sh
 
@@ -131,7 +113,7 @@ else
 fi
 ```
 
-# Procedimento de Restore
+### 12. Resumo do Procedimento de Restore
 
 1. Parar Kibana
 2. Remover Indices
@@ -141,6 +123,23 @@ fi
 Obs: 
 * A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
+
+### 13. Algums comandos extras:
+- Para listar índices e exibir seus tamanhos:
+```
+curl -XGET 'http://localhost:9200/_cat/indices'
+```
+- Aguardar até que o comando seja finalizado usando o "wait_for_completion=true":
+```
+curl -XPUT 'http://localhost:9200/_snapshot/esbackup/first-snapshot?wait_for_completion=true'
+```
+```
+curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_completion=true'
+```
+- Simulando um deleção de todos os ínidices:(CUIDADO!)
+```
+curl -XDELETE 'http://localhost:9200/_all'
+```
 
 Fonte:
 - [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
