@@ -46,7 +46,7 @@ spec:
 ```
 * Configurando o volume para vincular ao claim:
 ```
-- name: es-backup-hml-nfs-volume2
+       - name: es-backup-hml-nfs-volume2
           persistentVolumeClaim:
             claimName: es-backup-hml-nfs-claim2
 ```
@@ -58,7 +58,7 @@ spec:
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/snapshot/backup' -d '{"type": "fs","settings":{"location":"my_backup_location"}}'
 ```
 
-* Esta é a opçao que podemos fazer via cerebro:
+* Opção via [Cerebro do Lmenezes](https://github.com/lmenezes/cerebro):
 ```
 PUT /_snapshot/my_backup
 {
@@ -69,11 +69,11 @@ PUT /_snapshot/my_backup
 }
 ```
 ### 6. Realizando o snapshot via API:
-* Rodando na minha máquina local
+* Executando em máquina local
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/home/rpinto/es-backup","compress":true}}'
 ```
-* Executando o comando no Elasticsearch do Openshift:
+* Executando no Elasticsearch do Openshift:
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/backup' -d '{"type":"fs","settings":{"location":"/backup","compress":true}}'
 ```
@@ -122,11 +122,14 @@ fi
 3. Restaurar Snapshot
 4. Iniciar Kibana
 
-Obs: 
+### 13. Dicas
+
 * A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados
 * Caso o kibana esteja rodando deve-se parar o kibana pois ele fica tentando recriar os índices templates de forma automatica, impossibilitando o restore.
+* É possível criar uma política via interface do kibana para deixar todo o processo funcionando sem a necessidade de uma chamada de um script externo para rodar o backup.
 
-### 13. Algums comandos extras:
+### 14. Algums comandos extras:
+
 - Para listar índices e exibir seus tamanhos:
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
@@ -147,3 +150,4 @@ Fonte:
 - [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
 - [Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
 - [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
+- [Cerebro do Lmenezes](https://github.com/lmenezes/cerebro)
