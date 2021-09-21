@@ -1,17 +1,12 @@
 ## Snapshot and Restore ElasticSearch on Openshift ##
-
 ### 1. Pré-requisitos:
-
 * Elasticsearch instalado no Openshift de preferência utilizando statefulset;
 * Servidor de NFS com acesso liberado para o Openshift
 * PV criado e apontando para o NFS, /disponível para o pvc do namespace do Elasticsearch.
-
 ### 2. Disponibilizar um NFS 
-
 * O pv deve permitir que o access mode esteja em:
   - ReadWriteMany de acordo com a DOC [Persistente Storage - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
   - Aqui o link para configurar um [NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
-
 ### 3. Configurar PV para nfs dentro do Openshift
 ```
 apiVersion: v1
@@ -27,9 +22,7 @@ spec:
     path: /tmp 
     server: 172.17.0.2
 ```
-
 ### 4. Configurar PVC dentro do statefulset YAML do Elasticsearch:
-
 * Configurando uma nova env para de volume dentro do pod
 ```
 - env:
@@ -50,14 +43,11 @@ volumeMounts:
   persistentVolumeClaim:
     claimName: es-backup-hml-nfs-claim2
 ```
-
 ### 5. Criando o repo path dentro do Elasticsearch via API:
-
 * Opção de chamada por api
 ```
 curl -XPUT -H "content-type:application/json" 'http://localhost:9200/snapshot/backup' -d '{"type": "fs","settings":{"location":"my_backup_location"}}'
 ```
-
 * Opção via [Cerebro do Lmenezes](https://github.com/lmenezes/cerebro):
 ```
 PUT /_snapshot/my_backup
@@ -82,24 +72,19 @@ curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/b
 curl -XGET 'http://localhost:9200/_snapshot/_all?pretty'
 ```
 * *OBS: É possível visualizar o backup via cérebro, também.*
-
 ### 8. Listando os índices:
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
-
 ### 9. Restaurando o backup e garantindo que vamos pegar do diretório correto:
 ```
 curl -XPOST 'http://localhost:920/_snapshot/backup/first-snapshot/_restore?wait_for_completion=true'
 ```
-
 ### 10. Listando os índices para garantir que o processo vai ocorrer com sucesso
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
-
 ### 11. Configurar Job para executar Script Diariamente:
-
 * **script-snap.sh**
 #### 11.1 - Criando script pelo vim
 ```
@@ -122,22 +107,16 @@ fi
 ```
 chmod 755 script-snap.sh
 ```
-
 ### 12. Resumo do Procedimento de Restore
-
 1. Parar Kibana
 2. Remover Indices
 3. Restaurar Snapshot
 4. Iniciar Kibana
-
 ### 13. Dicas
-
 * *A melhor forma de testar seria subir um elasticsearch zerado, de preferência sem ter o kibana rodando e sem os índices iniciais criados;*
 * *Caso o kibana esteja rodando deve-se parar o kibana e apagar os índices que ele fica tentando recriar de forma automatica, impossibilitando o restore;*
 * *É possível criar uma política via interface do kibana para deixar todo o processo funcionando sem a necessidade de uma chamada de um script externo para rodar o backup.*
-
 ### 14. Algums comandos extras:
-
 - Para listar índices e exibir seus tamanhos:
 ```
 curl -XGET 'http://localhost:9200/_cat/indices'
@@ -153,7 +132,6 @@ curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_comp
 ```
 curl -XDELETE 'http://localhost:9200/_all'
 ```
-
 ### 15. Fonte:
 - [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
 - [Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
