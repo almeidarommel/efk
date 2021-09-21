@@ -81,7 +81,7 @@ curl -XPUT -H "content-type:application/json" 'http://localhost:9200/_snapshot/b
 ```
 curl -XGET 'http://localhost:9200/_snapshot/_all?pretty'
 ```
-* OBS: É possível visualizar o backup via cérebro, também.
+* *OBS: É possível visualizar o backup via cérebro, também.*
 
 ### 8. Listando os índices:
 ```
@@ -100,7 +100,7 @@ curl -XGET 'http://localhost:9200/_cat/indices'
 
 ## 11. Configurar Job para executar Script Diariamente:
 
-* script-snap.sh
+* **script-snap.sh**
 
 ```
 #!/bin/bash
@@ -146,7 +146,7 @@ curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_comp
 curl -XDELETE 'http://localhost:9200/_all'
 ```
 
-Fonte:
+### 15. Fonte:
 - [Snapshot e Restore Elasticsearch Doc](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/modules-snapshots.html)
 - [Criando volumes persistentes - Red Hat Docs](https://docs.openshift.com/enterprise/3.1/install_config/persistent_storage/persistent_storage_nfs.html)
 - [Configurando um NFS Server no Rhel8](https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/8/html/managing_file_systems/nfs-server-configuration_exporting-nfs-shares)
