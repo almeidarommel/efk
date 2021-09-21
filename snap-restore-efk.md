@@ -98,10 +98,14 @@ curl -XPOST 'http://localhost:920/_snapshot/backup/first-snapshot/_restore?wait_
 curl -XGET 'http://localhost:9200/_cat/indices'
 ```
 
-## 11. Configurar Job para executar Script Diariamente:
+### 11. Configurar Job para executar Script Diariamente:
 
 * **script-snap.sh**
-
+#### 11.1 - Criando script pelo vim
+```
+vim script-snap.sh
+```
+#### 11.2 - Conteúdo do arquivo
 ```
 #!/bin/bash
 DATE=$(date +%Y-%m-%d-%H-%M-%S)
@@ -113,6 +117,10 @@ if [[ "$status_code" -ne 200 ]] ; then
 else
         exit 0
 fi
+```
+#### 11.2 - Setando as permissões de execução do script:
+```
+chmod 755 script-snap.sh
 ```
 
 ### 12. Resumo do Procedimento de Restore
