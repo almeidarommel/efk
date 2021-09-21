@@ -129,8 +129,7 @@ curl -XPUT 'http://localhost:9200/_snapshot/esbackup/first-snapshot?wait_for_com
 ```
 curl -XPUT 'http://localhost:9200/_snapshot/backup/primeiro-backup?wait_for_completion=true'
 ```
-- Simulando um deleção de todos os ínidices: 
-***(CUIDADO!)***
+- Simulando um deleção de todos os ínidices: ***(CUIDADO!)***
 ```
 curl -XDELETE 'http://localhost:9200/_all'
 ```
